@@ -3,7 +3,6 @@
 import React from "react";
 import { useState } from "react";
 import Display from "./Display.jsx";
-import Input from "./Input.jsx";
 
 const ORC = () => {
   const temp =
@@ -13,7 +12,15 @@ const ORC = () => {
   return (
     <div className="">
       <Display passage={passage} />
-      <Input setPassage={setPassage} temp={temp} />
+      <textarea
+        name=""
+        id=""
+        value={passage}
+        onChange={(e) => {
+          setPassage(e.target.value);
+        }}
+        className="flex mx-auto w-full max-w-4xl h-32 focus:outline-none border px-2 py-1 "
+      ></textarea>
     </div>
   );
 };
