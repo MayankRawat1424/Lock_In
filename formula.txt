@@ -1,0 +1,5 @@
+Word length	ORP position
+1–2 letters	1st letter
+3–5 letters	2nd letter
+6–9 letters	3rd letter
+10+ letters	4th letter
