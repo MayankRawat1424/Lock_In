@@ -79,7 +79,7 @@ const Display = ({ passage }) => {
       <div className="flex flex-col w-full overflow-x-hidden">
         <div className="font-bold lg:text-6xl text-4xl w-1/2 border py-10 relative ml-auto font-mono">
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-screen bg-black"
+            className="absolute top-1/2 -translate-y-1/2 w-screen bg-neutral-900"
             style={{ transform: `translateX(-${offset(words[idx])}px)` }}
           >
             {highlight(words[idx])}
