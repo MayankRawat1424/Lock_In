@@ -20,7 +20,7 @@ const ORC = () => {
         onChange={(e) => {
           setPassage(e.target.value);
         }}
-        className="flex mx-auto w-full max-w-4xl h-32 focus:outline-none border px-2 py-1 "
+        className="flex mx-auto w-full max-w-4xl h-32 focus:outline-none border px-2 py-1 mb-32"
       ></textarea>
     </div>
   );

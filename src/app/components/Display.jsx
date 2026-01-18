@@ -44,7 +44,7 @@ const Display = ({ passage }) => {
         key={i}
         style={{ width: `${width * 4}px` }}
         className={`inline-block text-center flex-none ${
-          i === pivot ? "text-red-500 font-bold border" : ""
+          i === pivot ? "text-red-500 font-bold" : ""
         }`}
       >
         {ch}
@@ -76,10 +76,10 @@ const Display = ({ passage }) => {
 
   return (
     <section className="flex flex-col pb-16">
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full overflow-x-hidden">
         <div className="font-bold lg:text-6xl text-4xl w-1/2 border py-10 relative ml-auto font-mono">
           <div
-            className="absolute  top-1/2 -translate-y-1/2 w-screen"
+            className="absolute top-1/2 -translate-y-1/2 w-screen bg-black"
             style={{ transform: `translateX(-${offset(words[idx])}px)` }}
           >
             {highlight(words[idx])}
