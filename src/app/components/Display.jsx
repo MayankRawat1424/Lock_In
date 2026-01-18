@@ -3,12 +3,31 @@ import { IoMdPlay } from "react-icons/io";
 import { IoMdPause } from "react-icons/io";
 import { IoSquareSharp } from "react-icons/io5";
 
+export function useCharWidth() {
+  const [width, setWidth] = useState(12);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      setWidth(window.innerWidth <= 768 ? 6 : 10);
+    };
+
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
+  return width;
+}
+
 const Display = ({ passage }) => {
   const [idx, setIdx] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [wpm, setWpm] = useState(300);
 
   const words = passage.split(/[.,\s]+/);
+
+  const width = useCharWidth();
 
   const getPivot = (word) => {
     if (word.length <= 2) return 0;
@@ -18,11 +37,13 @@ const Display = ({ passage }) => {
   };
 
   const highlight = (word) => {
+    if (word.length <= 0) return null;
     const pivot = getPivot(word);
     return word.split("").map((ch, i) => (
       <span
         key={i}
-        className={`inline-block w-12 text-center flex-none ${
+        style={{ width: `${width * 4}px` }}
+        className={`inline-block text-center flex-none ${
           i === pivot ? "text-red-500 font-bold border" : ""
         }`}
       >
@@ -31,8 +52,9 @@ const Display = ({ passage }) => {
     ));
   };
 
+  const wordWidth = 4 * width;
   const offset = (word) => {
-    return getPivot(word) * 48 + 24;
+    return getPivot(word) * wordWidth + wordWidth / 2;
   };
 
   useEffect(() => {
@@ -55,9 +77,9 @@ const Display = ({ passage }) => {
   return (
     <section className="flex flex-col pb-16">
       <div className="flex flex-col w-full">
-        <div className="font-bold text-6xl w-1/2 border py-10 relative ml-auto font-mono">
+        <div className="font-bold lg:text-6xl text-4xl w-1/2 border py-10 relative ml-auto font-mono">
           <div
-            className="absolute  top-1/2 -translate-y-1/2"
+            className="absolute  top-1/2 -translate-y-1/2 w-screen"
             style={{ transform: `translateX(-${offset(words[idx])}px)` }}
           >
             {highlight(words[idx])}
@@ -66,22 +88,26 @@ const Display = ({ passage }) => {
       </div>
       <div className="flex flex-col mx-auto items-center gap-10 mt-16">
         <div className="flex gap-10">
-          <button
-            className="border-2 px-4 py-2 hover:bg-white hover:cursor-pointer hover:text-black"
-            onClick={() => {
-              setIsRunning(true);
-            }}
-          >
-            <IoMdPlay />
-          </button>
-          <button
-            className="border-2 px-4 py-2 hover:bg-white hover:cursor-pointer hover:text-black"
-            onClick={() => {
-              setIsRunning(false);
-            }}
-          >
-            <IoMdPause />
-          </button>
+          {isRunning ? (
+            <button
+              className="border-2 px-4 py-2 hover:bg-white hover:cursor-pointer hover:text-black"
+              onClick={() => {
+                setIsRunning(false);
+              }}
+            >
+              <IoMdPause />
+            </button>
+          ) : (
+            <button
+              className="border-2 px-4 py-2 hover:bg-white hover:cursor-pointer hover:text-black"
+              onClick={() => {
+                setIsRunning(true);
+              }}
+            >
+              <IoMdPlay />
+            </button>
+          )}
+
           <button
             className="border-2 px-4 py-2 hover:bg-white hover:cursor-pointer hover:text-black"
             onClick={() => {
@@ -100,7 +126,7 @@ const Display = ({ passage }) => {
           step={50}
           value={wpm}
           onChange={(e) => setWpm(Number(e.target.value))}
-          className="w-64 accent-blue-600 cursor-pointer"
+          className="w-64 accent-red-500 cursor-pointer"
         />
         <p>{wpm} WPM</p>
       </div>

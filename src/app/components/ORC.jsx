@@ -12,6 +12,7 @@ const ORC = () => {
   return (
     <div className="">
       <Display passage={passage} />
+
       <textarea
         name=""
         id=""
